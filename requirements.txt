@@ -1,4 +1,4 @@
-python=3.10.16
+python-dateutil==2.9.0.post0
 streamlit==1.44.1
 yfinance==0.2.55
 prophet==1.1.6
