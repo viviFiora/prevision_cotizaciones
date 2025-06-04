@@ -25,10 +25,15 @@ tickers = {
     "HAVA.BA": "Havanna Holding S.A."
 }
 
+@st.cache_data(ttl=86400)
 def cargar_datos(ticket, fecha_inicial, fecha_final):
-    df = yf.Ticker(ticket).history(start=fecha_inicial.strftime("%Y-%m-%d"),
-                                   end=fecha_final.strftime("%Y-%m-%d"))
-    return df
+    try:
+        df = yf.Ticker(ticket).history(start=fecha_inicial.strftime("%Y-%m-%d"),
+                                       end=fecha_final.strftime("%Y-%m-%d"))
+        return df
+    except Exception as e:
+        st.error(f"Error al obtener datos de {ticket}: {e}")
+        return None
 
 def preveer_datos(df, periodo):
     df.reset_index(inplace=True)
@@ -65,7 +70,7 @@ with st.sidebar:
 
 datos = cargar_datos(ticket_seleccionado,fecha_inicial,fecha_final)
 
-if datos.shape[0] != 0:
+if datos is not None and not datos.empty::
     st.header(f"Datos de la empresa - {tickers[ticket_seleccionado]}")
     st.dataframe(datos)
 
