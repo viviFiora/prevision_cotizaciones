@@ -70,7 +70,7 @@ with st.sidebar:
 
 datos = cargar_datos(ticket_seleccionado,fecha_inicial,fecha_final)
 
-if datos is not None and not datos.empty::
+if datos is not None and not datos.empty:
     st.header(f"Datos de la empresa - {tickers[ticket_seleccionado]}")
     st.dataframe(datos)
 
